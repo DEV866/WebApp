@@ -1,0 +1,155 @@
+﻿@model WebApp.Models.Product
+
+@{
+    ViewData["Title"] = "Details";
+}
+<head>
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" type="text/css" href="~/css/site.css" />
+</head>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-lg-5 col-md-4 col-6 mb-1">
+            <div @*class="card h-100"*@ style="height: 88%; content-visibility: auto">
+                <img src="@Model.Path" alt="Image" class="img-fluid">
+            </div>
+        </div>
+
+
+        <div class="col-lg-7 col-md-8 col-sm-12 mb-4">
+            <h3>@Model.Name</h3>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-3">Category:</dt>
+                <dd class="col-sm-9">@Model.Category</dd>
+
+                <dt class="col-sm-3">Description:</dt>
+                <dd class="col-sm-9">@Model.Description</dd>
+
+                <dt class="col-sm-3">Price:</dt>
+                <dd class="col-sm-9">₹@Model.Price</dd>
+
+                <hr class="mt-3" />
+
+
+                <html>
+                <head>
+                    <title>Select Size</title>
+                    
+
+                </head>
+                <body>
+                    <h4>Select Your Size:</h4>
+                    <div class="size-selector mb-3">
+                        <div class="size-box">XS</div>
+                        <div class="size-box">S</div>
+                        <div class="size-box">M</div>
+                        <div class="size-box">L</div>
+                        <div class="size-box">XL</div>
+                        <div class="size-box">XXL</div>
+                    </div>
+
+                    <script>
+                        // JavaScript to handle the size selection
+                        const sizeBoxes = document.querySelectorAll(".size-box");
+
+                        function getSize(event) {
+                            // Remove the "selected" class from all size boxes
+                            sizeBoxes.forEach(box => box.classList.remove("selected"));
+
+                            // Add the "selected" class to the clicked size box
+                            event.target.classList.add("selected");
+                        }
+
+                        // Add event listener to each size box
+                        sizeBoxes.forEach(box => box.addEventListener("click", getSize));
+                    </script>
+                </body>
+            </html>
+
+
+
+
+            <div class="col-12 mb-3">
+                <a href="#" class="btn btn-primary col-12">Buy</a>
+            </div>
+
+            <form class="col-12" asp-controller="Carts" asp-action="AddToCart" asp-route-id="@Model.Id">
+                <button class="btn btn-primary col-12" type="submit">Add to Cart</button>
+            </form>
+                @* </div>*@
+                @* @if (User.IsInRole("Admin"))
+            {*@
+
+
+
+                @*LOADING ANIMATION*@
+
+
+
+
+
+            <div class="loading col-sm-4">
+                <div class="loading-text">
+                    <span class="loading-text-words">M</span>
+                    <span class="loading-text-words">i</span>
+                    <span class="loading-text-words">l</span>
+                    <span class="loading-text-words">i</span>
+                    <span class="loading-text-words">N</span>
+                    <span class="loading-text-words">e</span>
+                    <span class="loading-text-words">u</span>
+                </div>
+            </div>
+
+
+
+
+            <div class="card-footer">
+                <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+                <a asp-action="Index">Back to List</a>
+            </div>
+                @*}*@
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
