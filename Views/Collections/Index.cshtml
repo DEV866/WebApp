@@ -49,20 +49,20 @@
         </button>
         <div class="slider slider-bg">
             <a href="/Carts/Index">
-            <img class="img-lg" href="#" src="~/resources/banner/alyssa.jpg"     />
+            <img class="img-lg" href="#" src="~/resources/banner/BloomB.PNG"     />
             </a>
 
                 <a href="#">
-                <img class="img-lg" href="#" src="~/resources/banner/angela-bailey.jpg" />
+                <img class="img-lg" href="#" src="~/resources/banner/TribalT.PNG" />
             </a>
 
-                    <a href="#">
+                    @* <a href="#">
                 <img class="img-lg" href="#" src="~/resources/banner/alyssa.jpg"  />
             </a>
 
                         <a href="#">
                 <img class="img-lg" href="#" src="~/resources/banner/angela-bailey.jpg"  />
-            </a>
+            </a> *@
 
         </div>
         <button class="handle right-handle">
@@ -96,7 +96,7 @@
                         <div class="row">
                             <div class="product-image">
                                 <a href="/products/Details/@Html.DisplayFor(modelItem => product.Id)">
-                                    <img src="@product.Path">
+                                <img src="\Resources\Items\@product.Path">
                                 </a>
                             </div>
                             <div class="product-title">
