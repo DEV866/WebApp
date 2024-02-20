@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using WebApp.Data;
-using WebApp.Models;
 
-namespace WebApp.Controllers
+using MiliNeu.DataAccess.Data;
+using MiliNeu.Models;
+
+namespace MiliNeu.Controllers
 {
     public class CollectionsController : Controller
     {
@@ -22,9 +23,11 @@ namespace WebApp.Controllers
         // GET: Collections
         public async Task<IActionResult> Index()
         {
-              return _context.Collection != null ? 
-                          View(await _context.Collection.Include(c => c.Products).ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Collection'  is null.");
+            /*Collection collection = new Collection();*/
+
+            return _context.Collection != null ?
+                        View(await _context.Collection.Include(c =>c.Products).ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.Collection'  is null.");
         }
 
         // GET: Collections/Details/5
@@ -34,7 +37,7 @@ namespace WebApp.Controllers
             {
                 return NotFound();
             }
-            
+
             var collection = await _context.Collection
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (collection == null)
@@ -150,14 +153,14 @@ namespace WebApp.Controllers
             {
                 _context.Collection.Remove(collection);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CollectionExists(int id)
         {
-          return (_context.Collection?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Collection?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using WebApp.Data;
-using WebApp.Models;
 
-namespace WebApp.Controllers
+using MiliNeu.DataAccess.Data;
+using MiliNeu.Models;
+
+namespace MiliNeu.Controllers
 {
     public class ProductsController : Controller
     {
@@ -36,7 +37,7 @@ namespace WebApp.Controllers
 
             var product = await _context.Product
                 .Include(p => p.Collection)
-                
+
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
@@ -159,14 +160,14 @@ namespace WebApp.Controllers
             {
                 _context.Product.Remove(product);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ProductExists(int id)
         {
-          return (_context.Product?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Product?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

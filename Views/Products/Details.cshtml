@@ -1,11 +1,12 @@
-﻿@model WebApp.Models.Product
+﻿@model MiliNeu.Models.Product
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<ApplicationUser> SignInManager;
 
 @{
     ViewData["Title"] = "Details";
 }
 <head>
     <meta charset="utf-8" />
-
     <link rel="stylesheet" type="text/css" href="~/css/site.css" />
 </head>
 <div class="container mt-4">
@@ -32,61 +33,70 @@
 
                 <hr class="mt-3" />
 
-
-                <html>
+             <html>
                 <head>
                     <title>Select Size</title>
-                    
-
                 </head>
                 <body>
-                    <h4>Select Your Size:</h4>
-                    <div class="size-selector mb-3">
-                        <div class="size-box">XS</div>
-                        <div class="size-box">S</div>
-                        <div class="size-box">M</div>
-                        <div class="size-box">L</div>
-                        <div class="size-box">XL</div>
-                        <div class="size-box">XXL</div>
-                    </div>
+                    <!-- Add this form to your HTML -->
+                    <form id="addToCartForm">
+                        <!-- Your product details (replace "your_product_id_here" with the actual product ID) -->
+                        <input type="hidden" name="id" value="@Model.Id">
 
-                    <script>
-                        // JavaScript to handle the size selection
-                        const sizeBoxes = document.querySelectorAll(".size-box");
+                        
 
-                        function getSize(event) {
-                            // Remove the "selected" class from all size boxes
-                            sizeBoxes.forEach(box => box.classList.remove("selected"));
+                        <!-- Size selector -->
+                        <div class="size-selector mb-3">
+                            <div class="size-box">
+                                <input type="radio" name="sizeSelected" value="XS" id="sizeXS">
+                                <label for="sizeXS">XS</label>
+                            </div>
+                            <div class="size-box">
+                                <input type="radio" name="sizeSelected" value="S" id="sizeS">
+                                <label for="sizeS">S</label>
+                            </div>
+                            <div class="size-box">
+                                <input type="radio" name="sizeSelected" value="M" id="sizeM">
+                                <label for="sizeM">M</label>
+                            </div>
+                            <div class="size-box">
+                                <input type="radio" name="sizeSelected" value="L" id="sizeL">
+                                <label for="sizeL">L</label>
+                            </div>
+                            <div class="size-box">
+                                <input type="radio" name="sizeSelected" value="XL" id="sizeXL">
+                                <label for="sizeXL">XL</label>
+                            </div>
+                            <div class="size-box">
+                                <input type="radio" name="sizeSelected" value="XXL" id="sizeXXL">
+                                <label for="sizeXXL">XXL</label>
+                            </div>
+                        </div>
 
-                            // Add the "selected" class to the clicked size box
-                            event.target.classList.add("selected");
+                       @if (SignInManager.IsSignedIn(Context.User))
+                        {
+                            <!-- Submit button -->
+                            <input type="submit" value="Add to Cart">
                         }
+                        else{
 
-                        // Add event listener to each size box
-                        sizeBoxes.forEach(box => box.addEventListener("click", getSize));
-                    </script>
+                            @*  <li><a href="/Identity/Account/Login" class="btn">Basket</a></li> *@
+                            <a href="/Identity/Account/Login">Add to Cart</a>
+                            }
+                        </form>
+
+                    
+
+
                 </body>
             </html>
 
 
 
 
-            <div class="col-12 mb-3">
-                <a href="#" class="btn btn-primary col-12">Buy</a>
-            </div>
+       
 
-            <form class="col-12" asp-controller="Carts" asp-action="AddToCart" asp-route-id="@Model.Id">
-                <button class="btn btn-primary col-12" type="submit">Add to Cart</button>
-            </form>
-                @* </div>*@
-                @* @if (User.IsInRole("Admin"))
-            {*@
-
-
-
-                @*LOADING ANIMATION*@
-
-
+            
 
 
 

@@ -11,9 +11,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using WebApp.Models;
+using MiliNeu.Models;
 
-namespace WebApp.Areas.Identity.Pages.Account
+namespace MiliNeu.Areas.Identity.Pages.Account
 {
     public class ConfirmEmailModel : PageModel
     {

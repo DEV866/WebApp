@@ -1,10 +1,105 @@
-﻿@model WebApp.Models.Cart
+﻿@model MiliNeu.Models.Cart
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+    <div class="basket-header">
+        <h1 class="">Your Basket</h1>
+    </div>
+
+    <div class="cart-page">
+
+        <table>
+            <tr>
+                <th>
+                    Product
+                </th>
+                <th>
+                    Size
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Subtotal
+                </th>
+
+
+
+                @foreach (var cartitem in Model.CartItems)
+                {
+
+                    var product = cartitem.Product;
+                    var SubT = cartitem.Quantity * product.Price;
+
+                <tr>
+
+
+                    <td>
+                        <div class="cart-info">
+                            <img src="\Resources\Items\@product.Path" alt="">
+                            <div>
+                                <p>@product.Name</p>
+                                <small>$@product.Price</small>
+                                <br>
+                                <a href="#">Remove</a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                            @cartitem.SelectedSize
+                    </td>
+                    <td>
+                        <input type="number" value="@cartitem.Quantity">
+                    </td>
+                    <td>
+
+                        $@SubT
+                    </td>
+
+                </tr>
+                
+                }
+
+        </table>
+
+        @* <div class="total-price">
+            <table>
+
+                <tr>
+                    <td>
+                        Subtotal
+                    </td>
+                    <td>
+                        $750
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Tax
+                    </td>
+                    <td>
+                        $50
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Total
+                    </td>
+                    <td>
+                        $800
+                    </td>
+                </tr>
+
+            </table>
+        </div> *@
+
+    </div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+
+@* 
 
 <div>
     <h4>Cart</h4>
@@ -22,18 +117,22 @@
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
     <h1>Shopping Cart</h1>
+
     <table>
         <tr>
             <th> </th>
             <th>Product ID</th>
             <th>Name</th>
             <th>Category</th>
+            <th>Size</th>
+            <th>Quantity</th>
             <th>Description</th>
             <th>Price</th>
             <th>Actions</th>
         </tr>
-        @foreach (var product in Model.Products)
+        @foreach (var cartItem in Model.CartItems)
         {
+            var product = cartItem.Product;
             <tr>
                 <td>
                     <a href="/products/Details/@Html.DisplayFor(modelItem => product.Id)" loading="lazy">
@@ -43,6 +142,8 @@
                 <td>@product.Id</td>
                 <td>@product.Name</td>
                 <td>@product.Category</td>
+                <td>@cartItem.SelectedSize</td>
+                <td>@cartItem.Quantity</td>
                 <td>@product.Description</td>
                 <td>@product.Price</td>
                 
@@ -52,6 +153,6 @@
             </tr>
         }
     </table>
-</div>
+</div> *@
 
 

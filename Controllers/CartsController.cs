@@ -5,11 +5,13 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using WebApp.Data;
-using WebApp.Models;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using MiliNeu.DataAccess.Data;
+using MiliNeu.Models;
 
-namespace WebApp.Controllers
+namespace MiliNeu.Controllers
 {
     public class CartsController : Controller
     {
@@ -23,10 +25,10 @@ namespace WebApp.Controllers
         // GET: Carts
         public async Task<IActionResult> Index()
         {
-              return _context.Cart != null ? 
-                          View(await _context.Cart
-                          .ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Cart'  is null.");
+            return _context.Cart != null ?
+                        View(await _context.Cart
+                        .ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.Cart'  is null.");
         }
 
         // GET: Carts/Details/5
@@ -38,7 +40,7 @@ namespace WebApp.Controllers
             }
 
             var cart = await _context.Cart
-                .Include(x => x.Products)
+                .Include(x => x.CartItems).ThenInclude(x => x.Product)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (cart == null)
             {
@@ -153,31 +155,34 @@ namespace WebApp.Controllers
             {
                 _context.Cart.Remove(cart);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         // GET: Cart/AddToCart/5
-        public async Task<IActionResult> AddToCart(int id)
+        public async Task<IActionResult> AddToCart(int id, string sizeSelected)
         {
-            // Retrieve the product from the database based on the given ID
-            var product = await _context.Product.FindAsync(id);
-            var cart=new Cart();
-            if (product == null)
-            {
-                return NotFound();
-            }
+
             // Check if the user is authenticated
             if (User.Identity.IsAuthenticated)
             {
+
+                // Retrieve the product from the database based on the given ID
+                var product = await _context.Product.FindAsync(id);
+                var cart = new Cart();
+                if (product == null)
+                {
+                    return NotFound();
+                }
                 // Get the current user's ID
                 string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                
+
 
                 // Retrieve the user's cart from the database
+
                 cart = await _context.Cart
-                    .Include(c => c.Products)
+                    .Include(c => c.CartItems)
                     .FirstOrDefaultAsync(c => c.ApplictaionUserId == userId);
 
                 // If the user doesn't have a cart, create a new one
@@ -187,27 +192,50 @@ namespace WebApp.Controllers
                     _context.Cart.Add(cart);
                 }
 
+
+
+                var existingCartItem = cart?.CartItems.FirstOrDefault(ci =>
+                    ci.ProductId == product.Id &&
+                    ci.SelectedSize == sizeSelected);
                 // Add the product to the cart
-                cart.Products ??= new List<Product>();
-                cart.Products.Add(product);
+                if (existingCartItem == null)
+                {
+                    CartItem newCartItem = new CartItem();
+                    newCartItem.Cart = cart;
+                    newCartItem.Product = product;
+                    newCartItem.ProductId = product.Id;
+                    newCartItem.Quantity = 1;
+                    newCartItem.CartId = cart.Id;
+                    newCartItem.SelectedSize = sizeSelected;
+
+                    cart.CartItems.Add(newCartItem);
+                }
+                else
+                {
+                    existingCartItem.Quantity++;
+                }
+
+
+
 
                 // Save changes to the database
                 await _context.SaveChangesAsync();
+                return RedirectToAction("Details", "Carts", new { id = cart.Id }); // Redirect to the home page after adding the product to the cart
+
             }
             else
             {
-                return RedirectToAction("Login", "Account"); // Change this to the appropriate login page or action.
-
+                return RedirectToAction("Login", "Account", new { area = "Identity" });
 
             }
-            return RedirectToAction("Details", "Carts", new { id = cart.Id }); // Redirect to the home page after adding the product to the cart
+
 
         }
 
 
         private bool CartExists(int id)
         {
-          return (_context.Cart?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Cart?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

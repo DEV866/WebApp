@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using WebApp.Models;
+using MiliNeu.Models;
 
-namespace WebApp.Controllers
+namespace MiliNeu.Controllers
 {
     /*[Authorize(Roles ="Customer")]*/
     public class HomeController : Controller

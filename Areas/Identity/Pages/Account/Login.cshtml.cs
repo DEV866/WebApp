@@ -14,9 +14,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using WebApp.Models;
+using MiliNeu.Models;
 
-namespace WebApp.Areas.Identity.Pages.Account
+namespace MiliNeu.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {

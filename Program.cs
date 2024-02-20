@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using WebApp.Data;
-using WebApp.Models;
+using MiliNeu.DataAccess.Data;
+using MiliNeu.Models;
 /*namespace WebApp
 {
 class Program

@@ -1,4 +1,4 @@
-﻿@model WebApp.Models.Product
+﻿@model MiliNeu.Models.Product
 
 @{
     ViewData["Title"] = "Details";
@@ -15,7 +15,7 @@
                 <img src="@Model.Path" alt="Image" class="img-fluid">
             </div>
         </div>
-
+        
 
         <div class="col-lg-7 col-md-8 col-sm-12 mb-4">
             <h3>@Model.Name</h3>
@@ -67,42 +67,53 @@
                 <body>
                     <h4>Select Your Size:</h4>
                     <div class="size-selector mb-3">
-                        <div class="size-box">XS</div>
-                        <div class="size-box">S</div>
-                        <div class="size-box">M</div>
-                        <div class="size-box">L</div>
-                        <div class="size-box">XL</div>
-                        <div class="size-box">XXL</div>
+                        <div class="size-box" id="sizeXS">XS</div>
+                        <div class="size-box" id="sizeS">S</div>
+                        <div class="size-box" id="sizeM">M</div>
+                        <div class="size-box" id="sizeL">L</div>
+                        <div class="size-box" id="sizeXL">XL</div>
+                        <div class="size-box" id="sizeXXL">XXL</div>
                     </div>
 
+                    <!-- Add a hidden field to store the selected size -->
+                    <input type="hidden" id="selectedSize" name="selectedSize" value="" />
                     <script>
                         // JavaScript to handle the size selection
                         const sizeBoxes = document.querySelectorAll(".size-box");
+                        let selectedSize = ""; // Variable to store the selected size
+                        sizeBoxes.forEach(box => box.addEventListener("click", getSize));
 
                         function getSize(event) {
-                            // Remove the "selected" class from all size boxes
                             sizeBoxes.forEach(box => box.classList.remove("selected"));
-
-                            // Add the "selected" class to the clicked size box
                             event.target.classList.add("selected");
+
+                            // Update the selectedSize variable
+                            selectedSize = event.target.innerText;
+                            document.getElementById("selectedSize").value = selectedSize;
+                            console.log(selectedSize);
+                            console.log(document.getElementById("selectedSize").value);
+                            
                         }
 
-                        // Add event listener to each size box
-                        sizeBoxes.forEach(box => box.addEventListener("click", getSize));
+                        function updateSelectedSize() {
+                            // Set the selected size in the hidden field
+                            console.log("wd");
+                        }
                     </script>
+                    <div class="col-12 mb-3">
+                        <a href="#" class="btn btn-primary col-12">Buy</a>
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        <a href="#" class="btn btn-success col-12" onclick="updateSelectedSize(); addToCart(@Model)">Add to Cart</a>
+                    </div>
                 </body>
             </html>
 
 
 
 
-                <div class="col-12 mb-3">
-                <a href="#" class="btn btn-primary col-12">Buy</a>
-                </div>
-
-                <div class="col-12 mb-3">
-                <a href="#" class="btn btn-success col-12">Add to Cart</a>
-                </div>
+               
            @* </div>*@
             @* @if (User.IsInRole("Admin"))
             {*@

@@ -106,7 +106,3 @@ function throttle(cb, delay = 1000) {
     }
 }
 
-
-
-
-

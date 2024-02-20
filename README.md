@@ -1,4 +1,4 @@
-# WebApp
+# MiliNeu
 
 This is an e-commerce website in initial phase of developement for a clothing brand Milineu Studio. 
 

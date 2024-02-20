@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "WebApp": {
+    "MiliNeu": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
